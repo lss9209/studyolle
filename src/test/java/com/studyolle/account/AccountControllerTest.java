@@ -9,7 +9,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -21,7 +22,10 @@ class AccountControllerTest {
     @Test
     void signUpForm() throws Exception {
         mockMvc.perform(get("/sign-up"))
-                .andExpect(status().isOk());
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("account/sign-up"))
+                .andExpect(model().attributeExists("signUpForm"));
     }
 
 }
